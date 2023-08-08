@@ -55,11 +55,15 @@ CREATE TABLE PopularSearch (
 #		like_user_profile,
 #		like_user_nickname)
 CREATE TABLE Liky (
+	like_id INT AUTO_INCREMENT PRIMARY KEY,
 	board_number INT NOT NULL,
     user_email VARCHAR(50) NOT NULL,
     like_user_profile TEXT,
     like_user_nickname VARCHAR(30) NOT NULL
 );
+
+
+
 # Comment(board_number[FK-Board(board_number)],
 #		  user_email[FK-User(user_email)],
 #		  comment_write_date,
@@ -67,6 +71,7 @@ CREATE TABLE Liky (
 #		  like_user_profile,
 #		  like_user_nickname)
 CREATE TABLE Comment (
+	comment_id INT AUTO_INCREMENT PRIMARY KEY,
 	board_number INT NOT NULL,
     user_email VARCHAR(50) NOT NULL,
     comment_write_date DATE NOT NULL,
