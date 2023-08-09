@@ -2,6 +2,8 @@ package com.kunwood.board.controller;
 
 import com.kunwood.board.dto.ResponseDto;
 import com.kunwood.board.dto.SignUpDto;
+import com.kunwood.board.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,9 +23,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
+    @Autowired
+    AuthService authService;
     @PostMapping("/signUp")
     public ResponseDto<?> signUp(@RequestBody SignUpDto requestBody){
-        System.out.println(requestBody.toString());
+        ResponseDto<?> result = authService.signUp(requestBody);
         return null;
     }
 }

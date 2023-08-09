@@ -1,5 +1,6 @@
 package com.kunwood.board.entity;
 
+import com.kunwood.board.dto.SignUpDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -35,5 +36,14 @@ public class UserEntity {
     private String userNickname;
     private String userPhoneNumber;
     private String userAddress;
-    private String userProfilge;
+    private String userProfile;
+
+
+    public UserEntity(SignUpDto dto){
+        this.userEmail = dto.getUserEmail();
+        this.userPassword = dto.getUserPassword();
+        this.userNickname = dto.getUserNickname();
+        this.userPhoneNumber = dto.getUserPhoneNumber();
+        this.userAddress = dto.getUserAddress() + "" + dto.getUserAddressDetail();
+    }
 }
