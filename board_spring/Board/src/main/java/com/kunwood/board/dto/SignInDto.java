@@ -1,28 +1,29 @@
 package com.kunwood.board.dto;
 
-import com.kunwood.board.entity.UserEntity;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
  * packageName : com.kunwood.board.dto
- * fileName : SingUpResponseDto
+ * fileName : SignInDto
  * author : geonu
- * date : 2023/08/08
+ * date : 2023/08/10
  * description :
  * 요약 :
  * <p>
  * ===========================================================
  * DATE            AUTHOR             NOTE
  * —————————————————————————————
- * 2023/08/08         geonu          최초 생성
+ * 2023/08/10         geonu          최초 생성
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInResponseDto {
-    private String token;
-    private int exprTime;
-    private UserEntity user;
+public class SignInDto {
+    @NotBlank
+    public String userEmail;
+    @NotBlank
+    public String userPassword;
 }

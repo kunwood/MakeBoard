@@ -1,9 +1,12 @@
 package com.kunwood.board.service;
 
 import com.kunwood.board.dto.ResponseDto;
+import com.kunwood.board.dto.SignInDto;
+import com.kunwood.board.dto.SignInResponseDto;
 import com.kunwood.board.dto.SignUpDto;
 import com.kunwood.board.entity.UserEntity;
 import com.kunwood.board.repository.UserRepository;
+import com.kunwood.board.security.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +26,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
 
-    @Autowired UserRepository userRepository;
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    TokenProvider tokenProvider;
 
     public ResponseDto<?> signUp(SignUpDto dto) {
         String userEmail = dto.getUserEmail();
@@ -32,9 +39,9 @@ public class AuthService {
 
 //        Email 중복확인
         try {
-            if(userRepository.existsById(userEmail))
+            if (userRepository.existsById(userEmail))
                 return ResponseDto.setFailed("Existed Email!");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseDto.setFailed("Data Base Error!");
         }
 
@@ -47,13 +54,45 @@ public class AuthService {
         UserEntity userEntity = new UserEntity(dto);
 
 //        UserRepository를 이용해서 데이터베이스에 Entity 저장!
-        try{
+        try {
             userRepository.save(userEntity);
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseDto.setFailed("Data Base Error!");
         }
 
         // 성공시 success response 반환!
         return ResponseDto.setSuccess("Sign Up Success!", null);
+    }
+
+
+    public ResponseDto<SignInResponseDto> signIn(SignInDto dto) {
+        String userEmail = dto.getUserEmail();
+        String userPassword = dto.getUserPassword();
+        try {
+            boolean existed = userRepository.existsByUserEmailAndUserPassword(userEmail, userPassword);
+            if (!existed) return ResponseDto.setFailed("Sign In Information Does Not Match");
+        } catch (Exception error) {
+            return ResponseDto.setFailed("Database Error");
+        }
+
+
+        UserEntity userEntity = null;
+
+
+        try {
+            userEntity = userRepository.findById(userEmail).get();
+        } catch (Exception error) {
+            return ResponseDto.setFailed("Database Error");
+        }
+
+
+        userEntity.setUserPassword("");
+
+
+        String token = tokenProvider.create(userEmail);
+        int exprTime = 3600000;
+
+        SignInResponseDto signInResponseDto = new SignInResponseDto(token, exprTime, userEntity);
+        return ResponseDto.setSuccess("Sign In Success", signInResponseDto);
     }
 }

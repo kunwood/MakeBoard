@@ -1,6 +1,8 @@
 package com.kunwood.board.controller;
 
 import com.kunwood.board.dto.ResponseDto;
+import com.kunwood.board.dto.SignInDto;
+import com.kunwood.board.dto.SignInResponseDto;
 import com.kunwood.board.dto.SignUpDto;
 import com.kunwood.board.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,4 +32,13 @@ public class AuthController {
         ResponseDto<?> result = authService.signUp(requestBody);
         return null;
     }
+
+    @PostMapping("/signIn")
+    public ResponseDto<SignInResponseDto> signIn(@RequestBody SignInDto requestBody){
+        ResponseDto<SignInResponseDto> result = authService.signIn(requestBody);
+        return result;
+    }
+
+
+
 }
