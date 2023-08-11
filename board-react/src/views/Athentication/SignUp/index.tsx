@@ -7,6 +7,8 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import { Button } from "@mui/material";
 
+
+// 회원 가입 페이지
 export default function SignUp() {
   const [userEmail, setUserEmail] = useState<string>("");
   const [userPassword, setUserPassword] = useState<string>("");
