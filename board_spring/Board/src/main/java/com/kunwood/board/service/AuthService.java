@@ -8,6 +8,8 @@ import com.kunwood.board.entity.UserEntity;
 import com.kunwood.board.repository.UserRepository;
 import com.kunwood.board.security.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -32,6 +34,8 @@ public class AuthService {
     @Autowired
     TokenProvider tokenProvider;
 
+    private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     public ResponseDto<?> signUp(SignUpDto dto) {
         String userEmail = dto.getUserEmail();
         String userPassword = dto.getUserPassword();
@@ -52,6 +56,11 @@ public class AuthService {
 
 //        UserEntity 생성
         UserEntity userEntity = new UserEntity(dto);
+
+//       비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(userPassword);
+        userEntity.setUserPassword(encodedPassword);
+
 
 //        UserRepository를 이용해서 데이터베이스에 Entity 저장!
         try {

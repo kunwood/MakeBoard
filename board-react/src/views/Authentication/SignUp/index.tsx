@@ -6,7 +6,7 @@ import { Button, Typography } from "@mui/material";
 import { signUpApi } from "../../../apis";
 
 interface Props {
-  setAuthView: (authView: boolean) => void;
+  setAuthView: (authView: boolean) => void,
 }
 
 // 회원 가입 페이지
@@ -32,14 +32,15 @@ export default function SignUp(props: Props) {
       userAddressDetail,
     };
 
-    const SignUpResponse = await signUpApi(data);
-    if (!SignUpResponse) {
-      alert("회원가입에 실패했습니다.");
+    const signUpResponse = await signUpApi(data);
+
+    if (!signUpResponse) {
+      alert('회원가입에 실패했습니다.');
       return;
     }
 
-    if (!SignUpResponse.result){
-      alert("회원가입에 실패했습니다.");
+    if (!signUpResponse.result){
+      alert('회원가입에 실패했습니다.');
       return;
     }
 

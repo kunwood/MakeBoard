@@ -10,7 +10,7 @@ import { Typography } from "@mui/material";
 import { signInApi } from "../../../apis";
 
 interface Props {
-  setAuthView: (authView: boolean) => void;
+  setAuthView: (authView: boolean) => void,
 }
 
 // 로그인 페이지
